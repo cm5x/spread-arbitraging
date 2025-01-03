@@ -11,6 +11,7 @@ import requests
 from kraken.futures import Market
 
 
+
 #TODO
 
 #add time 
@@ -161,8 +162,7 @@ else:
 
 #
 ##EXCH 2 DATA RETRIEVAL  KRAKEN, TOTAL OF 5.
-import requests
-import pandas as pd
+
 
 # Kraken Futures API URL for tickers
 url = 'https://futures.kraken.com/derivatives/api/v3/tickers'
@@ -180,18 +180,18 @@ if data['result'] == 'success' and 'tickers' in data:
 
     # Extract relevant data into a structured format
     data_list = []
-    for ticker in perpetuals:
-        original_symbol = ticker['symbol']
+    for kticker in perpetuals:
+        original_symbol = kticker['symbol']
         modified_symbol = original_symbol.replace('PF_', '')  # Remove 'PF_'
         modified_symbol = modified_symbol.replace('USD', 'USDT')  # Replace 'USD' with 'USDT'
 
         data_list.append({
             'symbol': modified_symbol,
-            'kr_lastPrice': ticker['last'],
+            'kr_lastPrice': kticker['markPrice'],
             # 'Bid Price': ticker['bid'],
             # 'Ask Price': ticker['ask'],
-            '24h Volume': ticker['vol24h'],
-            'Open Interest': ticker['openInterest'],
+            '24h Volume': kticker['vol24h'],
+            'Open Interest': kticker['openInterest'],
             # '24h High': ticker['high24h'],
             # '24h Low': ticker['low24h']
         })
@@ -441,6 +441,7 @@ for col in columns_to_format:
 
 # Save the modified workbook
 wb.save('futures_price_comparison.xlsx')
+print('Excel file saved successfully.: futures-price-comparison.xlsx')
 
 
 
